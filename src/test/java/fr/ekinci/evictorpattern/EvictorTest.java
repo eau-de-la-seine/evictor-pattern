@@ -54,23 +54,28 @@ public class EvictorTest {
         }};
         
         
-        // Initialize parameters
+        /* *** Initialize parameters *** */
+        
+        // TIMESTAMP
         startTimestampField.set(connectionHolders[0], EVICTABLE_TIMESTAMP);       // Evictable
         startTimestampField.set(connectionHolders[1], EVICTABLE_TIMESTAMP);       // Evictable
         startTimestampField.set(connectionHolders[2], NOT_EVICTABLE_TIMESTAMP);   // Not Evictable
         startTimestampField.set(connectionHolders[3], NOT_EVICTABLE_TIMESTAMP);   // Not Evictable
+        
+        // IN_USE
         connectionHolders[0].setInUse(false);                                     // Evictable
         connectionHolders[1].setInUse(true);                                      // Not Evictable
         connectionHolders[2].setInUse(false);                                     // Evictable
         connectionHolders[3].setInUse(true);                                      // Not Evictable
         
         /* *** RULES *** */
+        //                        TIMESTAMP        IN_USE           RESULT
         // connectionHolders[0] : Evictable     && Evictable     => Evictable
         // connectionHolders[1] : Evictable     && Not Evictable => NOT Evictable
         // connectionHolders[2] : Not Evictable && Evictable     => NOT Evictable
         // connectionHolders[3] : Not Evictable && Not Evictable => NOT Evictable
         
-        // Start GC process
+        // Start evictor process
         final Evictor<String, ConnectionHolder> gc = 
             new Evictor<String, ConnectionHolder>(connectionRegistryMapMock, REFRESH_PERIOD); 
         gc.findAndEvictOldValues(connectionRegistryMapMock, EVICTOR_BEGIN_TIMESTAMP, REFRESH_PERIOD);

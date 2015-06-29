@@ -56,18 +56,18 @@ public class Evictor<ID, VALUE_TYPE extends Evictable> {
     /**
      * Process of removing non-used and old values 
      *
-     * @param evictableDataMap   The map we are trying to clean
-     * @param gcBeginTimestamp Timestamp of gc process has begun
-     * @param refreshPeriod    The period 
+     * @param evictableDataMap      The map we are trying to clean
+     * @param evictorBeginTimestamp Timestamp of evictor process has begun
+     * @param refreshPeriod         The period 
      */
-    public void findAndEvictOldValues(Map<ID, VALUE_TYPE> evictableDataMap, long gcBeginTimestamp, long refreshPeriod){
+    public void findAndEvictOldValues(Map<ID, VALUE_TYPE> evictableDataMap, long evictorBeginTimestamp, long refreshPeriod){
         Iterator<Map.Entry<ID, VALUE_TYPE>> iter = evictableDataMap.entrySet().iterator();
         
         while (iter.hasNext()) {
             Map.Entry<ID, VALUE_TYPE> entry = iter.next();
             VALUE_TYPE value = entry.getValue();           
 
-            if(value.isEvictable(gcBeginTimestamp, refreshPeriod)){
+            if(value.isEvictable(evictorBeginTimestamp, refreshPeriod)){
                 value.evict();  
                 iter.remove(); // Remove element from map
             }           
