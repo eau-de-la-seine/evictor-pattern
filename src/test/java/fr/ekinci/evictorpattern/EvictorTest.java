@@ -50,7 +50,7 @@ public class EvictorTest {
             put(ids[0], connectionHolders[0]);
             put(ids[1], connectionHolders[1]);
             put(ids[2], connectionHolders[2]);
-            put(ids[2], connectionHolders[3]);
+            put(ids[3], connectionHolders[3]);
         }};
         
         
